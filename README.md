@@ -1,3 +1,3 @@
-# PythonProblems
+# LeetCode Coding Problems
 
-Interview question practice in Python
+Interview coding questions in python and C#
