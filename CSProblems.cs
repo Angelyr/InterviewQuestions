@@ -77,4 +77,41 @@ public class CSProblems{
         
         return null;
     }
+
+    public string ToLowerCase(string str) {
+        return str.ToLower();
+    }
+
+    public IList<string> FindAndReplacePattern(string[] words, string pattern) {
+        List<string> output = new List<string>();
+        foreach(string word in words)
+        {
+            Dictionary<char, char> perm = new Dictionary<char, char>();
+            bool matching = true;
+            
+            for(int i=0; i < pattern.Length; i++)
+            {
+                char letter = word[i];
+                char match = pattern[i];
+            
+                if(perm.ContainsKey(match))
+                {
+                    if(perm[match] == letter) continue;
+                    else matching = false;
+                }
+                else if(perm.ContainsValue(letter))
+                {
+                    matching = false;
+                }
+                else
+                {
+                    perm[match] = letter;
+                }
+            }
+            
+            if(matching) output.Add(word);
+            
+        }
+        return output;
+    }
 }
