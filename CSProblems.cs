@@ -114,4 +114,64 @@ public class CSProblems{
         }
         return output;
     }
+
+    public string GetExpr(string expression)
+    {
+        return expression.Substring(2,expression.Length-3);
+    }
+    
+    public List<string> GetAllExpr(string expression)
+    {
+        List<string> result = new List<string>();
+        int left = 0;
+        int right = 0;
+        string expr = "";
+        foreach(char c in expression.Substring(2, expression.Length-2))
+        {
+            if(c == '(') left+=1;
+            if(c == ')') right +=1;
+            
+            
+            if(c == ',' && left == right)
+            {
+                result.Add(expr);
+                expr = "";
+                left = 0;
+                right = 0;
+                continue;
+            }
+            if(right > left) result.Add(expr);
+            
+            expr += c;
+        }
+        return result;
+    }
+    
+    public bool ParseBoolExpr(string expression) 
+    {
+        if(expression == "t") return true;
+        if(expression == "f") return false;
+        
+        if(expression[0] == '!') return !ParseBoolExpr(GetExpr(expression));
+        
+        bool result = ParseBoolExpr(GetAllExpr(expression)[0]);
+        
+        if(expression[0] == '&')
+        {
+            foreach(string expr in GetAllExpr(expression))
+            {
+                result = result & ParseBoolExpr(expr);
+            }
+        }
+        
+        if(expression[0] == '|')
+        {
+            foreach(string expr in GetAllExpr(expression))
+            {
+                result = result | ParseBoolExpr(expr);
+            }
+        }
+        
+        return result;
+    }
 }
